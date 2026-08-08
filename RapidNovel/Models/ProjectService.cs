@@ -2,7 +2,7 @@
 
 namespace RapidNovel.Models;
 
-public class ProjectSession:IProjectSession
+public class ProjectService:IProjectService
 {
     public Project? Project { get; set; }
     public void SaveProject(string filename)

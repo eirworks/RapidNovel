@@ -1,6 +1,6 @@
 ﻿namespace RapidNovel.Models.Interfaces;
 
-public interface IProjectSession
+public interface IProjectService
 {
     Project? Project { get; set; }
 

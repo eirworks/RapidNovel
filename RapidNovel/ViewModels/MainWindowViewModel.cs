@@ -11,7 +11,7 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     public string Greeting { get; } = "Welcome to Avalonia!";
 
-    private readonly IProjectSession _projectSession;
+    private readonly IProjectService _projectService;
 
     /// <summary>The currently loaded project, or <c>null</c> when no project is loaded.</summary>
     [ObservableProperty]
@@ -20,9 +20,9 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public bool IsProjectLoaded => Project is not null;
 
-    public MainWindowViewModel(IProjectSession projectSession)
+    public MainWindowViewModel(IProjectService projectService)
     {
-        _projectSession = projectSession;
-        _project = _projectSession.Project;
+        _projectService = projectService;
+        _project = _projectService.Project;
     }
 }
