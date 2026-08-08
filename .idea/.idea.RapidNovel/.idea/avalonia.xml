@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="RapidNovel/App.axaml" value="RapidNovel/RapidNovel.csproj" />
+        <entry key="RapidNovel/Views/MainWindow.axaml" value="RapidNovel/RapidNovel.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
