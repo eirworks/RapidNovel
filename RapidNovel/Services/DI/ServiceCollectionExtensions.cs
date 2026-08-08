@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RapidNovel.Models;
 using RapidNovel.Models.Interfaces;
 using RapidNovel.Services.Config;
+using RapidNovel.Services.Saves;
 using RapidNovel.ViewModels;
 
 namespace RapidNovel.Services.DI;
@@ -14,10 +15,13 @@ public static class ServiceCollectionExtensions
     public static void AddCommonServices(this IServiceCollection services)
     {
         // project session
-        services.AddSingleton<IProjectSession, ProjectSession>();
+        services.AddSingleton<IProjectService, ProjectService>();
         // config service
         services.AddSingleton<IConfigService, ConfigService>();
         // ViewModels
         services.AddSingleton<MainWindowViewModel>();
+        
+        // other services
+        services.AddTransient<ProjectSaveService>();
     }
 }
