@@ -4,7 +4,7 @@ namespace RapidNovel.Models;
 
 public class ProjectSession:IProjectSession
 {
-    public required Project Project { get; set; }
+    public Project? Project { get; set; }
     public void SaveProject(string filename)
     {
         throw new System.NotImplementedException();

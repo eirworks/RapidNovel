@@ -4,6 +4,7 @@
     <option name="projectPerEditor">
       <map>
         <entry key="RapidNovel/App.axaml" value="RapidNovel/RapidNovel.csproj" />
+        <entry key="RapidNovel/Views/AboutWindow.axaml" value="RapidNovel/RapidNovel.csproj" />
         <entry key="RapidNovel/Views/MainWindow.axaml" value="RapidNovel/RapidNovel.csproj" />
       </map>
     </option>

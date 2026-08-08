@@ -1,0 +1,73 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="430" d:DesignHeight="300"
+        Width="430"
+        Height="300"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/avalonia-logo.ico"
+        x:Class="RapidNovel.Views.AboutWindow"
+        Title="About RapidNovel">
+
+    <Grid RowDefinitions="*,Auto" Margin="24,22,24,16">
+
+        <!-- App header: logo mark + name/version/description -->
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="22">
+
+            <!-- Logo mark -->
+            <Border Width="72" Height="72"
+                    CornerRadius="18"
+                    VerticalAlignment="Top">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Offset="0" Color="#6C5CE7"/>
+                        <GradientStop Offset="1" Color="#0984E3"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <TextBlock Text="RN"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+            </Border>
+
+            <!-- App info -->
+            <StackPanel Grid.Column="1" Spacing="8" VerticalAlignment="Top">
+                <TextBlock Text="RapidNovel"
+                           FontSize="24"
+                           FontWeight="SemiBold"/>
+                <TextBlock x:Name="VersionText"
+                           FontSize="12"
+                           Foreground="{DynamicResource SystemControlDescriptionTextForegroundBrush}"/>
+                <TextBlock Text="Plan, draft, and manage your novel with AI assistance."
+                           FontSize="13"
+                           LineHeight="20"
+                           TextWrapping="Wrap"
+                           Foreground="{DynamicResource SystemControlDescriptionTextForegroundBrush}"
+                           Margin="0,6,0,0"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Footer: divider + copyright + close -->
+        <StackPanel Grid.Row="1" Spacing="14">
+            <Border Height="1"
+                    Background="{DynamicResource SystemControlTransientBorderBrush}"/>
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Text="Copyright © 2026 RapidNovel. All rights reserved."
+                           FontSize="11"
+                           Foreground="{DynamicResource SystemControlDescriptionTextForegroundBrush}"
+                           VerticalAlignment="Center"/>
+                <Button Grid.Column="1"
+                        Content="Close"
+                        IsDefault="True"
+                        IsCancel="True"
+                        Click="CloseButton_OnClick"
+                        MinWidth="84"
+                        HorizontalAlignment="Right"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

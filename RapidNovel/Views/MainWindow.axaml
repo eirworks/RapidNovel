@@ -14,7 +14,37 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+    
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New Project"></MenuItem>
+                <MenuItem Header="_Open Project"></MenuItem>
+                <MenuItem Header="_Save Project" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
+                <MenuItem Header="Save Project As" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Settings"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="_Exit" Click="ExitMenuItem_OnClick"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Project" IsVisible="True" IsEnabled="{Binding IsProjectLoaded}">
+                <MenuItem Header="Characters"></MenuItem>
+                <MenuItem Header="Places"></MenuItem>
+                <MenuItem Header="Objects"></MenuItem>
+                <MenuItem Header="Timeline"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Write" IsVisible="True" IsEnabled="{Binding IsProjectLoaded}">
+                <MenuItem Header="Drafts"></MenuItem>
+                <MenuItem Header="Chapters"></MenuItem>
+                <MenuItem Header="Books"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Help" IsVisible="True">
+                <MenuItem Header="_Help"></MenuItem>
+                <MenuItem Header="_About" Click="AboutMenuItem_OnClick"></MenuItem>
+            </MenuItem>
+        </Menu>
+        
+        <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        
+    </DockPanel>
 </Window>
