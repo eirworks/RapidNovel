@@ -44,7 +44,8 @@
             </MenuItem>
         </Menu>
         
-        <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <!-- CurrentPage is a view model; ViewLocator resolves the matching view and sets its DataContext -->
+        <ContentControl Content="{Binding Navigation.CurrentPage}"/>
         
     </DockPanel>
 </Window>

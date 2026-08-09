@@ -13,7 +13,7 @@ namespace RapidNovel;
 public partial class App : Application
 {
     private ServiceProvider? _services;
-
+    
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
