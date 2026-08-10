@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="using:RapidNovel.Views"
+             mc:Ignorable="d" d:DesignWidth="240" d:DesignHeight="120"
+             x:DataType="views:StatCard"
+             x:Class="RapidNovel.Views.StatCard"
+             TextBlock.Text="{Binding Title, RelativeSource={RelativeSource Self}}"
+             TextBlock.TextWrapping="NoWrap">
+    <!--
+        Reusable stat card. No ViewModel required; supply Title and Value directly:
+        <controls:StatCard Title="Orders" Value="123" />
+    -->
+    <Border CornerRadius="10"
+            Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+            BorderBrush="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+            BorderThickness="1"
+            Padding="18,16">
+        <StackPanel Orientation="Vertical" Spacing="6">
+            <!-- Card title: small, muted -->
+            <TextBlock FontSize="13"
+                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                       TextTrimming="CharacterEllipsis" />
+            <!-- Card value: large, emphasized -->
+            <TextBlock FontSize="28"
+                       FontWeight="SemiBold"
+                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                       TextTrimming="CharacterEllipsis" />
+        </StackPanel>
+    </Border>
+</UserControl>

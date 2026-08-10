@@ -10,6 +10,7 @@
         <entry key="RapidNovel/Views/MainPageView.axaml" value="RapidNovel/RapidNovel.csproj" />
         <entry key="RapidNovel/Views/MainWindow.axaml" value="RapidNovel/RapidNovel.csproj" />
         <entry key="RapidNovel/Views/Pages.axaml" value="RapidNovel/RapidNovel.csproj" />
+        <entry key="RapidNovel/Views/StatCardView.axaml" value="RapidNovel/RapidNovel.csproj" />
       </map>
     </option>
   </component>
