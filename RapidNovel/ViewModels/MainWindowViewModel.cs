@@ -33,6 +33,9 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         _projectService = projectService;
         _project = _projectService.Project;
+        // Keep the window in sync when a project is created/loaded elsewhere
+        // (e.g. the Create Project dialog stores a new project in the service).
+        _projectService.ProjectChanged += (_, _) => Project = _projectService.Project;
         Navigation = navigation;
         CreateProjectCmd = createProjectCommand;
     }
