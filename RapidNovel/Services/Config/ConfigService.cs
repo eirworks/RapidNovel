@@ -11,8 +11,14 @@ public class ConfigService: IConfigService
 {
     private static readonly string BaseDir = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".rapidnovel");
+    
     private static readonly string ConfigDir = Path.Combine(BaseDir, "config");
-    private static readonly string ProjectsDir = Path.Combine(BaseDir, "projects");
+    
+    /// <summary>
+    /// Directory where project files are stored: <c>~/.rapidnovel/projects</c>.
+    /// </summary>
+    public static readonly string ProjectsDir = Path.Combine(BaseDir, "projects");
+    
     private static readonly string ModelConfigPath = Path.Combine(ConfigDir, "model_config.json");
 
     private static readonly JsonSerializerOptions JsonOptions = new()

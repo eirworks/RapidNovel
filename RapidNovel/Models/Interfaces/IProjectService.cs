@@ -9,6 +9,6 @@ public interface IProjectService
     /// <summary>Raised whenever <see cref="Project"/> is replaced with a new instance.</summary>
     event EventHandler? ProjectChanged;
 
-    void SaveProject(string filename);
-    void LoadProject(string filename);
+    void SaveProject(string id);
+    void LoadProject(string id);
 }
