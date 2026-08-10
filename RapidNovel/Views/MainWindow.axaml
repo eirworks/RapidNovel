@@ -18,7 +18,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New Project"></MenuItem>
+                <MenuItem Header="_New Project" Command="{Binding CreateProjectCmd}"></MenuItem>
                 <MenuItem Header="_Open Project"></MenuItem>
                 <MenuItem Header="_Save Project" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
                 <MenuItem Header="Save Project As" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>

@@ -10,7 +10,7 @@
         <TextBlock Text="{Binding Welcome}" HorizontalAlignment="Center" FontSize="24" />
         <TextBlock Text="{Binding Hint}" HorizontalAlignment="Center" />
         <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
-            <Button Content="New Project" Margin="0,8,0,0" />
+            <Button Content="New Project" Margin="0,8,0,0" Command="{Binding CreateProjectCommand}"/>
             <Button Content="Load Project" Margin="0,8,0,0" />
             <Button Content="Settings" Margin="0,8,0,0" />
         </StackPanel>
