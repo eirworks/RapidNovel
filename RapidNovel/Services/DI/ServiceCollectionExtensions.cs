@@ -26,6 +26,7 @@ public static class ServiceCollectionExtensions
         // ViewModels
         services.AddTransient<MainWindowViewModel>();
         services.AddTransient<MainPageViewModel>();
+        services.AddTransient<CreateProjectViewModel>();
         // commands
         services.AddTransient<CreateProjectCommand>();
         

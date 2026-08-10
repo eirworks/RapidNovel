@@ -1,0 +1,120 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:RapidNovel.ViewModels"
+        x:DataType="viewModels:CreateProjectViewModel"
+        mc:Ignorable="d" d:DesignWidth="520" d:DesignHeight="420"
+        x:Class="RapidNovel.Views.CreateProjectWindow"
+        x:Name="Root"
+        Width="520"
+        Height="420"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Create New Project">
+
+    <Design.DataContext>
+        <!-- Only used by the IDE previewer; runtime DataContext is set in CreateProjectCommand. -->
+        <viewModels:CreateProjectViewModel/>
+    </Design.DataContext>
+
+    <Window.Styles>
+        <!-- Primary action button -->
+        <Style Selector="Button.primary">
+            <Setter Property="Background" Value="#6C5CE7"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="20,8"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="*,Auto" Margin="28,24,28,18">
+
+        <!-- Header + form fields -->
+        <StackPanel Grid.Row="0" Spacing="22">
+
+            <!-- Title block -->
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                <Border Width="52" Height="52"
+                        CornerRadius="14"
+                        VerticalAlignment="Center">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                            <GradientStop Offset="0" Color="#6C5CE7"/>
+                            <GradientStop Offset="1" Color="#0984E3"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <TextBlock Text="NP"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+
+                <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
+                    <TextBlock Text="New Project"
+                               FontSize="22"
+                               FontWeight="SemiBold"/>
+                    <TextBlock Text="Set up a new novel project to start writing."
+                               FontSize="13"
+                               Foreground="{DynamicResource SystemControlDescriptionTextForegroundBrush}"/>
+                </StackPanel>
+            </Grid>
+
+            <Border Height="1"
+                    Background="{DynamicResource SystemControlTransientBorderBrush}"/>
+
+            <!-- Form fields -->
+            <StackPanel Spacing="16">
+
+                <StackPanel Spacing="7">
+                    <TextBlock Text="Project name"
+                               FontSize="13"
+                               FontWeight="SemiBold"/>
+                    <TextBox Text="{Binding Name}"
+                             PlaceholderText="e.g. The Last Ember"
+                             MinHeight="34"/>
+                    <TextBlock Text="{Binding ValidationMessage}"
+                               FontSize="12"
+                               Foreground="#E74C3C"/>
+                </StackPanel>
+
+                <StackPanel Spacing="7">
+                    <TextBlock Text="Author"
+                               FontSize="13"
+                               FontWeight="SemiBold"/>
+                    <TextBox Text="{Binding Author}"
+                             PlaceholderText="Your name or pen name"
+                             MinHeight="34"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Footer: cancel / create -->
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,Auto,Auto"
+              ColumnSpacing="10"
+              Margin="0,20,0,0">
+            <TextBlock Text="Create to start planning your story."
+                       FontSize="12"
+                       Foreground="{DynamicResource SystemControlDescriptionTextForegroundBrush}"
+                       VerticalAlignment="Center"/>
+            <Button Grid.Column="1"
+                    Content="Cancel"
+                    IsCancel="True"
+                    MinWidth="96"
+                    Command="{Binding CancelCommand}"
+                    CommandParameter="{Binding #Root}"/>
+            <Button Grid.Column="2"
+                    Content="Create Project"
+                    Classes="primary"
+                    IsDefault="True"
+                    MinWidth="120"
+                    Command="{Binding CreateCommand}"
+                    CommandParameter="{Binding #Root}"/>
+        </Grid>
+    </Grid>
+</Window>
