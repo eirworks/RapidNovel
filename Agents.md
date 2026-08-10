@@ -1,7 +1,9 @@
 ﻿# Agents
 
-RapidNovel is web novel writer and writing management app targeting Windows, 
-Linux, and probably Mac. App written using C# and Avalonia with MVVM.
+## Guideline
+
+- Do not **run** the project, **build** is permitted only if needed.
+- Comments and doc-blocks are encouraged
 
 ## Navigation
 
