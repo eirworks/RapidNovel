@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RapidNovel.Models.Interfaces;
 using RapidNovel.Services;
 using RapidNovel.Services.DI;
+using RapidNovel.Services.Navigation;
 using RapidNovel.ViewModels;
 using RapidNovel.Views;
 
@@ -30,6 +31,10 @@ public partial class App : Application
 
         // Initialize config file and directories
         _services.GetRequiredService<IConfigService>().Initialize();
+
+        // Initialize navigation service — MUST be done after DI construction completes
+        // to avoid circular dependencies (NavigationService ↔ MainPageViewModel ↔ CreateProjectCommand)
+        _services.GetRequiredService<INavigationService>().Initialize(_services!);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

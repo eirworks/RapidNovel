@@ -12,7 +12,7 @@ namespace RapidNovel.Services.Navigation;
 public interface INavigationService
 {
     /// <summary>The page currently displayed in the main content area.</summary>
-    ViewModelBase CurrentPage { get; }
+    ViewModelBase? CurrentPage { get; }
 
     /// <summary>
     /// Navigates to the page for <typeparamref name="T"/>.
@@ -20,6 +20,13 @@ public interface INavigationService
     /// without the window view model knowing about them.
     /// </summary>
     void NavigateTo<T>() where T : ViewModelBase;
+
+    /// <summary>
+    /// Initializes the navigation service with the default (home) page.
+    /// Must be called after the DI container is fully built, outside of any constructor chain,
+    /// to avoid circular dependencies (NavigationService ↔ MainPageViewModel ↔ CreateProjectCommand).
+    /// </summary>
+    void Initialize(IServiceProvider services);
 }
 
 public partial class NavigationService : ObservableObject, INavigationService
@@ -27,12 +34,20 @@ public partial class NavigationService : ObservableObject, INavigationService
     private readonly IServiceProvider _services;
 
     [ObservableProperty]
-    private ViewModelBase _currentPage;
+    private ViewModelBase? _currentPage;
 
     public NavigationService(IServiceProvider services)
     {
+        // Do NOT resolve ViewModels here — it creates a circular dependency:
+        //   NavigationService → MainPageViewModel → CreateProjectCommand → NavigationService
+        // Defer initialization to Initialize() which is called after DI construction completes.
         _services = services;
-        _currentPage = services.GetRequiredService<MainPageViewModel>();
+        _currentPage = null;
+    }
+
+    public void Initialize(IServiceProvider services)
+    {
+        CurrentPage = services.GetRequiredService<MainPageViewModel>();
     }
 
     public void NavigateTo<T>() where T : ViewModelBase
