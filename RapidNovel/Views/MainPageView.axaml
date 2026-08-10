@@ -1,18 +1,39 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="using:RapidNovel.ViewModels"
+             xmlns:views="using:RapidNovel.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:MainPageViewModel"
              x:Class="RapidNovel.Views.MainPageView">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
-        <TextBlock Text="{Binding Welcome}" HorizontalAlignment="Center" FontSize="24" />
-        <TextBlock Text="{Binding Hint}" HorizontalAlignment="Center" />
-        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
-            <Button Content="New Project" Margin="0,8,0,0" Command="{Binding CreateProjectCommand}"/>
-            <Button Content="Load Project" Margin="0,8,0,0" />
-            <Button Content="Settings" Margin="0,8,0,0" />
+    <Grid>
+        <!-- Shown while no project is loaded: greeting and actions -->
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8"
+                    IsVisible="{Binding !IsProjectLoaded}">
+            <TextBlock Text="{Binding Welcome}" HorizontalAlignment="Center" FontSize="24" />
+            <TextBlock Text="{Binding Hint}" HorizontalAlignment="Center" />
+            <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+                <Button Content="New Project" Margin="0,8,0,0" Command="{Binding CreateProjectCommand}"/>
+                <Button Content="Load Project" Margin="0,8,0,0" />
+                <Button Content="Settings" Margin="0,8,0,0" />
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+
+        <!-- Shown while a project is loaded: project stat cards -->
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12"
+                    IsVisible="{Binding IsProjectLoaded}">
+            <TextBlock Text="{Binding Project.Name}" HorizontalAlignment="Center" FontSize="20" FontWeight="SemiBold" />
+            <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+                <views:StatCard Title="Drafts" Value="{Binding DraftsCount}" />
+                <views:StatCard Title="Tasks" Value="{Binding TasksCount}" />
+                <views:StatCard Title="Notes" Value="{Binding NotesCount}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+                <views:StatCard Title="Characters" Value="{Binding CharactersCount}" />
+                <views:StatCard Title="Places" Value="{Binding PlacesCount}" />
+                <views:StatCard Title="Items" Value="{Binding ItemsCount}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
 </UserControl>

@@ -5,28 +5,31 @@
              xmlns:views="using:RapidNovel.Views"
              mc:Ignorable="d" d:DesignWidth="240" d:DesignHeight="120"
              x:DataType="views:StatCard"
-             x:Class="RapidNovel.Views.StatCard"
-             TextBlock.Text="{Binding Title, RelativeSource={RelativeSource Self}}"
-             TextBlock.TextWrapping="NoWrap">
+             x:Class="RapidNovel.Views.StatCard">
     <!--
         Reusable stat card. No ViewModel required; supply Title and Value directly:
-        <controls:StatCard Title="Orders" Value="123" />
+        <views:StatCard Title="Orders" Value="123" />
     -->
     <Border CornerRadius="10"
+            MinWidth="120"
             Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
             BorderBrush="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
             BorderThickness="1"
             Padding="18,16">
         <StackPanel Orientation="Vertical" Spacing="6">
             <!-- Card title: small, muted -->
-            <TextBlock FontSize="13"
+            <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=views:StatCard}}"
+                       FontSize="13"
                        Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                       TextTrimming="CharacterEllipsis" />
+                       TextTrimming="CharacterEllipsis"
+                       TextAlignment="Center" />
             <!-- Card value: large, emphasized -->
-            <TextBlock FontSize="28"
+            <TextBlock Text="{Binding Value, RelativeSource={RelativeSource AncestorType=views:StatCard}}"
+                       FontSize="28"
                        FontWeight="SemiBold"
                        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
-                       TextTrimming="CharacterEllipsis" />
+                       TextTrimming="CharacterEllipsis"
+                       TextAlignment="Center" />
         </StackPanel>
     </Border>
 </UserControl>
