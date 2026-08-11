@@ -28,6 +28,7 @@
                 <MenuItem Header="_Exit" Click="ExitMenuItem_OnClick"></MenuItem>
             </MenuItem>
             <MenuItem Header="_Project" IsVisible="True" IsEnabled="{Binding IsProjectLoaded}">
+                <MenuItem Header="Project Info" Command="{Binding NavigateToHomePageCommand}"></MenuItem>
                 <MenuItem Header="Characters" Command="{Binding OpenCharactersCommand}"></MenuItem>
                 <MenuItem Header="Places"></MenuItem>
                 <MenuItem Header="Objects"></MenuItem>

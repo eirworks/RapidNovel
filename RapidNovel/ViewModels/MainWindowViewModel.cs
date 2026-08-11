@@ -53,4 +53,13 @@ public partial class MainWindowViewModel : ViewModelBase
         CreateProjectCmd = createProjectCommand;
         SaveProjectCmd = new SaveProjectCommand(projectService, Status);
     }
+
+    [RelayCommand]
+    private void NavigateToHomePage()
+    {
+        if (Navigation.CurrentPage is not MainPageViewModel)
+        {
+            Navigation.NavigateTo<MainPageViewModel>();
+        }
+    }
 }
