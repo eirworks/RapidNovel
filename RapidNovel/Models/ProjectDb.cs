@@ -4,5 +4,5 @@ namespace RapidNovel.Models;
 
 public class ProjectDb
 {
-    public List<Character> Characters { get; set; }
+    public List<Character> Characters { get; set; } = [];
 }
