@@ -1,0 +1,248 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:RapidNovel.ViewModels"
+             xmlns:models="using:RapidNovel.Models"
+             xmlns:conv="using:RapidNovel.Converters"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="560"
+             x:DataType="vm:CharactersPageViewModel"
+             x:Class="RapidNovel.Views.CharactersPageView">
+
+    <Design.DataContext>
+        <!-- Only used by the IDE previewer; runtime DataContext is set by the ViewLocator. -->
+        <vm:CharactersPageViewModel/>
+    </Design.DataContext>
+
+    <UserControl.Resources>
+        <conv:CharacterInitialsConverter x:Key="CharacterInitials"/>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <!-- Primary action button (matches the brand accent used in CreateProjectWindow) -->
+        <Style Selector="Button.primary">
+            <Setter Property="Background" Value="#6C5CE7"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="20,8"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid ColumnDefinitions="280,*">
+
+        <!-- ===================== Sidebar ===================== -->
+        <Border Grid.Column="0"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                BorderBrush="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                BorderThickness="0,0,1,0">
+            <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="12,14,12,12">
+
+                <!-- Header: title + character count badge -->
+                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="4,0,4,10">
+                    <TextBlock Text="Characters"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+                    <Border Grid.Column="1"
+                            CornerRadius="10"
+                            Padding="8,2"
+                            Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding CharacterCount}"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                    </Border>
+                </Grid>
+
+                <!-- Search box -->
+                <TextBox Grid.Row="1"
+                         Text="{Binding SearchText}"
+                         PlaceholderText="Search characters…"
+                         Margin="0,0,0,10"/>
+
+                <!-- Character list + empty-state hints -->
+                <Grid Grid.Row="2">
+                    <ListBox ItemsSource="{Binding FilteredCharacters}"
+                             SelectedItem="{Binding SelectedCharacter, Mode=TwoWay}"
+                             Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:Character">
+                                <StackPanel Spacing="1">
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock Text="{Binding FirstName}" FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding LastName}" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <TextBlock Text="Female"
+                                               FontSize="11"
+                                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                               IsVisible="{Binding IsFemale}"/>
+                                    <TextBlock Text="Male"
+                                               FontSize="11"
+                                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                               IsVisible="{Binding !IsFemale}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <!-- No characters in the project at all -->
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Spacing="4"
+                                IsVisible="{Binding !HasAnyCharacters}">
+                        <TextBlock Text="No characters yet"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Use New Character to add one."
+                                   FontSize="12"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Characters exist, but none match the search -->
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                IsVisible="{Binding HasAnyCharacters}">
+                        <TextBlock Text="No characters match your search."
+                                   FontSize="12"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   IsVisible="{Binding !HasFilteredCharacters}"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- New Character (UI stub for now) -->
+                <Button Grid.Row="3"
+                        Content="New Character"
+                        Classes="primary"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,10,0,0"
+                        Command="{Binding NewCharacterCommand}"/>
+            </Grid>
+        </Border>
+
+        <!-- ===================== Content: wiki-style article ===================== -->
+        <Grid Grid.Column="1">
+
+            <!-- No selection -->
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="6"
+                        IsVisible="{Binding !HasSelection}">
+                <TextBlock Text="Select a character to view details."
+                           FontSize="15"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Choose a character from the sidebar."
+                           FontSize="13"
+                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Selected character -->
+            <ScrollViewer IsVisible="{Binding HasSelection}">
+                <StackPanel Margin="32,26" Spacing="0">
+
+                    <!-- Header: avatar + name + meta -->
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="18">
+                        <Border Width="64" Height="64"
+                                CornerRadius="32"
+                                VerticalAlignment="Top"
+                                Background="{DynamicResource SystemControlHighlightAccentBrush}">
+                            <TextBlock Text="{Binding SelectedCharacter, Converter={StaticResource CharacterInitials}}"
+                                       FontSize="24"
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="5">
+                            <StackPanel Orientation="Horizontal" Spacing="7">
+                                <TextBlock Text="{Binding SelectedCharacter.FirstName}"
+                                           FontSize="26"
+                                           FontWeight="SemiBold"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding SelectedCharacter.LastName}"
+                                           FontSize="26"
+                                           FontWeight="SemiBold"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="Female"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource SystemControlHighlightAccentBrush}"
+                                           IsVisible="{Binding SelectedCharacter.IsFemale}"/>
+                                <TextBlock Text="Male"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource SystemControlHighlightAccentBrush}"
+                                           IsVisible="{Binding !SelectedCharacter.IsFemale}"/>
+                                <TextBlock Text="{Binding SelectedBirthdayText}"
+                                           FontSize="13"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Divider -->
+                    <Border Height="1"
+                            Background="{DynamicResource SystemControlTransientBorderBrush}"
+                            Margin="0,22,0,20"/>
+
+                    <!-- Aliases section -->
+                    <TextBlock Text="Aliases"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,10"/>
+                    <ItemsControl ItemsSource="{Binding SelectedCharacter.Aliases}"
+                                  IsVisible="{Binding HasAliases}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Border CornerRadius="12"
+                                        Padding="10,4"
+                                        Margin="0,0,6,6"
+                                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                                        BorderBrush="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                                        BorderThickness="1">
+                                    <TextBlock Text="{Binding}" FontSize="13"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="None"
+                               FontSize="13"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                               IsVisible="{Binding !HasAliases}"/>
+
+                    <!-- Divider -->
+                    <Border Height="1"
+                            Background="{DynamicResource SystemControlTransientBorderBrush}"
+                            Margin="0,18,0,20"/>
+
+                    <!-- Description section -->
+                    <TextBlock Text="Description"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding SelectedCharacter.Description}"
+                               FontSize="14"
+                               LineHeight="23"
+                               TextWrapping="Wrap"
+                               IsVisible="{Binding HasDescription}"/>
+                    <TextBlock Text="No description yet."
+                               FontSize="13"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                               IsVisible="{Binding !HasDescription}"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -33,6 +33,10 @@ public partial class MainWindowViewModel : ViewModelBase
     /// <summary>Global status queue consumed by the status bar at the bottom of the window.</summary>
     public IStatusService Status { get; }
 
+    /// <summary>Navigates to the Characters page.</summary>
+    [RelayCommand]
+    private void OpenCharacters() => Navigation.NavigateTo<CharactersPageViewModel>();
+
     public MainWindowViewModel(
         IProjectService projectService,
         INavigationService navigation,
