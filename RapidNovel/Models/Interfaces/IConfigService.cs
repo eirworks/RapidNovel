@@ -1,8 +1,10 @@
-﻿namespace RapidNovel.Models.Interfaces;
+﻿using RapidNovel.Models.Configuration;
+
+namespace RapidNovel.Models.Interfaces;
 
 public interface IConfigService
 {
-    IModelConfig Config { get; set; }
+    AppConfig AppConfig { get; set; }
     void Initialize();
     void StoreConfig();
     void LoadConfig();

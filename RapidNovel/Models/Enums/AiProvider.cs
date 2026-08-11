@@ -1,8 +1,10 @@
 ﻿namespace RapidNovel.Models.Enums;
 
-public enum ModelProvider
+public enum AiProvider
 {
     OpenRouter,
     LmStudio,
-    DeepSeek
+    DeepSeek,
+    OpenAi,
+    Gemini
 }
