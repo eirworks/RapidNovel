@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:RapidNovel.ViewModels"
+        xmlns:views="using:RapidNovel.Views"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -20,8 +21,7 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_New Project" Command="{Binding CreateProjectCmd}"></MenuItem>
                 <MenuItem Header="_Open Project"></MenuItem>
-                <MenuItem Header="_Save Project" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
-                <MenuItem Header="Save Project As" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
+                <MenuItem Header="_Save Project" Command="{Binding SaveProjectCmd}" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Settings"></MenuItem>
                 <Separator></Separator>
@@ -44,6 +44,9 @@
             </MenuItem>
         </Menu>
         
+        <!-- Status bar: shows the current queued status (each for 3 seconds) -->
+        <views:StatusBarView DockPanel.Dock="Bottom" DataContext="{Binding Status}"/>
+
         <!-- CurrentPage is a view model; ViewLocator resolves the matching view and sets its DataContext -->
         <ContentControl Content="{Binding Navigation.CurrentPage}"/>
         

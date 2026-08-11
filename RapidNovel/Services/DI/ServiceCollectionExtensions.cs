@@ -5,6 +5,7 @@ using RapidNovel.Models.Interfaces;
 using RapidNovel.Services.Config;
 using RapidNovel.Services.Navigation;
 using RapidNovel.Services.Saves;
+using RapidNovel.Services.Status;
 using RapidNovel.ViewModels;
 using RapidNovel.Views;
 
@@ -23,12 +24,15 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IConfigService, ConfigService>();
         // navigation
         services.AddSingleton<INavigationService, NavigationService>();
+        // status bar queue
+        services.AddSingleton<IStatusService, StatusService>();
         // ViewModels
         services.AddTransient<MainWindowViewModel>();
         services.AddTransient<MainPageViewModel>();
         services.AddTransient<CreateProjectViewModel>();
         // commands
         services.AddTransient<CreateProjectCommand>();
+        services.AddTransient<SaveProjectCommand>();
         
         // other services
         services.AddTransient<ProjectSaveService>();

@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -13,6 +14,14 @@ namespace RapidNovel;
 
 public partial class App : Application
 {
+    /// <summary>
+    /// Application-wide service provider. Exposed so views and windows that are <b>not</b>
+    /// created by DI (e.g. <c>new AboutWindow()</c> in code-behind, or user controls resolved
+    /// by the ViewLocator) can still reach services such as <see cref="Services.Status.IStatusService"/>.
+    /// DI-created classes (view models, commands, services) should use constructor injection instead.
+    /// </summary>
+    public static IServiceProvider? Services { get; private set; }
+
     private ServiceProvider? _services;
     
     public override void Initialize()
@@ -28,6 +37,7 @@ public partial class App : Application
 
         // Build the provider used to resolve services.
         _services = collection.BuildServiceProvider();
+        Services = _services;
 
         // Initialize config file and directories
         _services.GetRequiredService<IConfigService>().Initialize();

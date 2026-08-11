@@ -37,7 +37,7 @@ public class ProjectService : IProjectService
     }
 
     /// <summary>
-    /// Persists the currently open project to <c>~/.rapidnovel/projects/&lt;id&gt;/&lt;id&gt;.bin</c>.
+    /// Persists the currently open project to <c>~/.rapidnovel/projects/&lt;id&gt;/&lt;id&gt;.rnp</c>.
     /// </summary>
     /// <param name="id">Project id used as save key.</param>
     /// <exception cref="InvalidOperationException">When no project is currently open.</exception>
