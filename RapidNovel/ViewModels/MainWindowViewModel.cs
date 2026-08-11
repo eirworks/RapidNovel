@@ -37,6 +37,10 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void OpenCharacters() => Navigation.NavigateTo<CharactersPageViewModel>();
 
+    /// <summary>Navigates to the Settings page.</summary>
+    [RelayCommand]
+    private void OpenSettings() => Navigation.NavigateTo<SettingsPageViewModel>();
+
     public MainWindowViewModel(
         IProjectService projectService,
         INavigationService navigation,

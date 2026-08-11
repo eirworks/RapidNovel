@@ -1,0 +1,232 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:RapidNovel.ViewModels"
+             xmlns:models="using:RapidNovel.Models.Configuration"
+             xmlns:conv="using:RapidNovel.Converters"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="560"
+             x:DataType="vm:SettingsPageViewModel"
+             x:Class="RapidNovel.Views.SettingsPageView">
+
+    <Design.DataContext>
+        <!-- Only used by the IDE previewer; runtime DataContext is set by the ViewLocator. -->
+        <vm:SettingsPageViewModel/>
+    </Design.DataContext>
+
+    <UserControl.Resources>
+        <conv:AiProviderNameConverter x:Key="ProviderTypeName"/>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <!-- Primary action button (matches the brand accent used in CreateProjectWindow) -->
+        <Style Selector="Button.primary">
+            <Setter Property="Background" Value="#6C5CE7"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="20,8"/>
+        </Style>
+
+        <!-- Destructive action button (delete provider) -->
+        <Style Selector="Button.danger">
+            <Setter Property="Background" Value="#E5484D"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="20,8"/>
+        </Style>
+    </UserControl.Styles>
+
+    <TabControl Padding="0">
+
+        <!-- App tab -->
+        <TabItem Header="App">
+            <ScrollViewer>
+                <StackPanel Margin="32,26" Spacing="14" MaxWidth="560" HorizontalAlignment="Left">
+
+                    <TextBlock Text="Application"
+                               FontSize="18"
+                               FontWeight="SemiBold"/>
+                    <TextBlock Text="General application settings."
+                               FontSize="13"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+
+                    <Border Height="1"
+                            Background="{DynamicResource SystemControlTransientBorderBrush}"
+                            Margin="0,4,0,10"/>
+
+                    <TextBlock Text="Last Quick Write Directory"
+                               FontSize="14"
+                               FontWeight="SemiBold"/>
+                    <TextBlock Text="The folder last used by the Quick Write feature. It pre-fills the folder picker the next time you use Quick Write."
+                               FontSize="12"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                               TextWrapping="Wrap"/>
+
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding LastQuickWriteDir}"
+                                 PlaceholderText="C:\Users\you\Documents\Novel"/>
+                        <Button Grid.Column="1"
+                                Content="Save"
+                                Classes="primary"
+                                VerticalAlignment="Top"
+                                Command="{Binding SaveQuickWriteDirCommand}"/>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <!-- AI tab -->
+        <TabItem Header="AI">
+            <Grid ColumnDefinitions="280,*">
+
+                <!-- Sidebar -->
+                <Border Grid.Column="0"
+                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                        BorderBrush="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                        BorderThickness="0,0,1,0">
+                    <Grid RowDefinitions="Auto,*,Auto" Margin="12,14,12,12">
+
+                        <!-- Header: title + provider count badge -->
+                        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="4,0,4,10">
+                            <TextBlock Text="AI Providers"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                            <Border Grid.Column="1"
+                                    CornerRadius="10"
+                                    Padding="8,2"
+                                    Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                                    VerticalAlignment="Center">
+                                <TextBlock Text="{Binding ProviderCount}"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                            </Border>
+                        </Grid>
+
+                        <!-- Provider list -->
+                        <Grid Grid.Row="1">
+                            <ListBox ItemsSource="{Binding Providers}"
+                                     SelectedItem="{Binding SelectedProvider, Mode=TwoWay}"
+                                     Background="Transparent">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:AiProviderConfig">
+                                        <StackPanel Spacing="1">
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                                            <TextBlock Text="{Binding Provider, Converter={StaticResource ProviderTypeName}}"
+                                                       FontSize="11"
+                                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <!-- No providers configured yet -->
+                            <StackPanel HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Spacing="4"
+                                        IsVisible="{Binding !HasAnyProviders}">
+                                <TextBlock Text="No AI providers yet"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="Use New Provider to add one."
+                                           FontSize="12"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                           HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- New Provider -->
+                        <Button Grid.Row="2"
+                                Content="New Provider"
+                                Classes="primary"
+                                HorizontalAlignment="Stretch"
+                                Margin="0,10,0,0"
+                                Command="{Binding NewProviderCommand}"/>
+                    </Grid>
+                </Border>
+
+                <!-- Content: provider form -->
+                <Grid Grid.Column="1">
+
+                    <!-- No selection / no new provider -->
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Spacing="6"
+                                IsVisible="{Binding !HasProviderSelection}">
+                        <TextBlock Text="Select a provider to view its settings."
+                                   FontSize="15"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Choose a provider from the sidebar, or use New Provider to add one."
+                                   FontSize="13"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Provider form -->
+                    <ScrollViewer IsVisible="{Binding HasProviderSelection}">
+                        <StackPanel Margin="32,26" Spacing="16" MaxWidth="560" HorizontalAlignment="Left">
+
+                            <TextBlock Text="{Binding ProviderFormTitle}"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"/>
+
+                            <Border Height="1"
+                                    Background="{DynamicResource SystemControlTransientBorderBrush}"/>
+
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="Name"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"/>
+                                <TextBox Text="{Binding ProviderName, Mode=TwoWay}"
+                                         PlaceholderText="e.g. OpenRouter"/>
+                            </StackPanel>
+
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="Provider"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"/>
+                                <ComboBox ItemsSource="{Binding ProviderTypeOptions}"
+                                          SelectedItem="{Binding ProviderType, Mode=TwoWay}"/>
+                            </StackPanel>
+
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="Base URL"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"/>
+                                <TextBox Text="{Binding ProviderBaseUrl, Mode=TwoWay}"
+                                         PlaceholderText="https://api.openai.com/v1"/>
+                            </StackPanel>
+
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="API Key"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"/>
+                                <!-- Masked text box for the API key (Avalonia 12: TextBox + PasswordChar) -->
+                                <TextBox Text="{Binding ProviderApiKey, Mode=TwoWay}"
+                                         PasswordChar="•"
+                                         PlaceholderText="sk-…"/>
+                            </StackPanel>
+
+                            <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="10" Margin="0,8,0,0">
+                                <Button Content="{Binding SaveProviderButtonText}"
+                                        Classes="primary"
+                                        Command="{Binding SaveProviderCommand}"
+                                        IsEnabled="{Binding CanSaveProvider}"/>
+                                <Button Grid.Column="1"
+                                        Content="Delete"
+                                        Classes="danger"
+                                        Command="{Binding DeleteProviderCommand}"
+                                        IsVisible="{Binding CanDeleteProvider}"/>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</UserControl>

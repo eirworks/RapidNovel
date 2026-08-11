@@ -23,7 +23,7 @@
                 <MenuItem Header="_Open Project"></MenuItem>
                 <MenuItem Header="_Save Project" Command="{Binding SaveProjectCmd}" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="Settings"></MenuItem>
+                <MenuItem Header="Settings" Command="{Binding OpenSettingsCommand}"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="_Exit" Click="ExitMenuItem_OnClick"></MenuItem>
             </MenuItem>

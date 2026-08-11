@@ -30,6 +30,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<MainWindowViewModel>();
         services.AddTransient<MainPageViewModel>();
         services.AddTransient<CharactersPageViewModel>();
+        services.AddTransient<SettingsPageViewModel>();
         services.AddTransient<CreateProjectViewModel>();
         // commands
         services.AddTransient<CreateProjectCommand>();

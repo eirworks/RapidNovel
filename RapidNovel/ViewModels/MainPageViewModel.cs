@@ -1,14 +1,17 @@
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using RapidNovel.Commands;
 using RapidNovel.Models;
 using RapidNovel.Models.Interfaces;
+using RapidNovel.Services.Navigation;
 
 namespace RapidNovel.ViewModels;
 
 public partial class MainPageViewModel : ViewModelBase
 {
     private readonly IProjectService _projectService;
+    private readonly INavigationService _navigation;
     private readonly Random _random = new();
 
     public CreateProjectCommand CreateProjectCommand { get; }
@@ -34,10 +37,12 @@ public partial class MainPageViewModel : ViewModelBase
 
     public MainPageViewModel(
         CreateProjectCommand createProjectCommand,
-        IProjectService projectService)
+        IProjectService projectService,
+        INavigationService navigation)
     {
         CreateProjectCommand = createProjectCommand;
         _projectService = projectService;
+        _navigation = navigation;
 
         _project = _projectService.Project;
         RefreshStats();
@@ -50,6 +55,10 @@ public partial class MainPageViewModel : ViewModelBase
             RefreshStats();
         };
     }
+
+    /// <summary>Navigates to the Settings page.</summary>
+    [RelayCommand]
+    private void OpenSettings() => _navigation.NavigateTo<SettingsPageViewModel>();
 
     /// <summary>
     /// Fills the stat cards with random placeholder values.
